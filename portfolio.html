@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蔡辰 · 设计作品集</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300;400;500;600&family=Noto+Sans+SC:wght@100;300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   全局基础 · 治愈唯美轻艺术基调
+   ═══════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* 莫兰迪柔色体系 */
+  --cream:        #f5f0eb;
+  --milk:         #faf7f2;
+  --shell:        #e8e0d6;
+  --sand:         #d4c8b8;
+  --stone:        #b8a99a;
+  --dust:         #9a8b7d;
+  --mist:         #8b7d6b;
+  --wood:         #6b5d4d;
+  --earth:        #4d3f2f;
+  --rose-mute:    #c4a9a0;
+  --blue-mute:    #a0b0c4;
+  --green-mute:   #a8c0a8;
+  --lavender:     #b0a0b8;
+  --peach:        #d4b8a4;
+  --sky-soft:     #c8d4e0;
+  --gradient-a:   #e8ddd0;
+  --gradient-b:   #d0c4b4;
+  --gradient-c:   #c0b4a4;
+  /* 功能色 */
+  --glass-bg:     rgba(245,240,235,0.72);
+  --glass-border: rgba(200,190,175,0.18);
+  --shadow-soft:  rgba(180,170,155,0.12);
+  --shadow-glow:  rgba(196,169,160,0.25);
+  /* 字体 */
+  --font-display: 'Noto Serif SC', serif;
+  --font-body:    'Noto Sans SC', sans-serif;
+  /* 动效时长 */
+  --ease-flow:    cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-soft:    cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fade:     1.2s;
+  --dur-hover:    0.5s;
+  --dur-slide:    0.8s;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--earth);
+  background: var(--cream);
+  line-height: 1.8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--rose-mute);
+  color: var(--milk);
+}
+
+/* ═══════════════════════════════════════════
+   全屏载入动效 · 优雅浮现
+   ═══════════════════════════════════════════ */
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1s var(--ease-flow), visibility 1s;
+}
+.loader-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+.loader-text {
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--dust);
+  letter-spacing: 0.5em;
+  animation: loaderPulse 2s var(--ease-flow) infinite;
+}
+@keyframes loaderPulse {
+  0%, 100% { opacity: 0.3; transform: translateY(4px); }
+  50%      { opacity: 1;   transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   导航栏 · 磨砂通透
+   ═══════════════════════════════════════════ */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 1.2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  background: var(--glass-bg);
+  border-bottom: 1px solid var(--glass-border);
+  transition: background var(--dur-hover) var(--ease-soft),
+              box-shadow var(--dur-hover) var(--ease-soft);
+}
+.nav-bar.scrolled {
+  box-shadow: 0 4px 30px var(--shadow-soft);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: var(--mist);
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  transition: color var(--dur-hover) var(--ease-soft);
+}
+.nav-logo:hover { color: var(--rose-mute); }
+
+.nav-links {
+  display: flex;
+  gap: 2.2rem;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--dust);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  position: relative;
+  transition: color var(--dur-hover) var(--ease-soft);
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--rose-mute);
+  transition: width var(--dur-hover) var(--ease-flow);
+}
+.nav-links a:hover { color: var(--rose-mute); }
+.nav-links a:hover::after { width: 100%; }
+
+/* 移动端导航 */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 28px;
+  height: 20px;
+  position: relative;
+}
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--dust);
+  position: absolute;
+  left: 0;
+  transition: all var(--dur-hover) var(--ease-soft);
+}
+.nav-toggle span:nth-child(1) { top: 0; }
+.nav-toggle span:nth-child(2) { top: 8px; }
+.nav-toggle span:nth-child(3) { top: 16px; }
+
+.nav-mobile {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(245,240,235,0.96);
+  backdrop-filter: blur(30px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s var(--ease-soft), visibility 0.4s;
+}
+.nav-mobile.open { opacity: 1; visibility: visible; }
+.nav-mobile a {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 1.4rem;
+  color: var(--mist);
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  transition: color var(--dur-hover);
+}
+.nav-mobile a:hover { color: var(--rose-mute); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .nav-mobile { display: flex; }
+  .nav-bar { padding: 1rem 1.5rem; }
+}
+
+/* ═══════════════════════════════════════════
+   通用动画类 · 滚动淡入
+   ═══════════════════════════════════════════ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--dur-fade) var(--ease-flow),
+              transform var(--dur-fade) var(--ease-flow);
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-in-delay-1 { transition-delay: 0.15s; }
+.fade-in-delay-2 { transition-delay: 0.3s; }
+.fade-in-delay-3 { transition-delay: 0.45s; }
+.fade-in-delay-4 { transition-delay: 0.6s; }
+
+/* ═══════════════════════════════════════════
+   1. 首页首屏 · 氛围感封面
+   ═══════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    var(--cream) 0%,
+    var(--gradient-a) 30%,
+    var(--gradient-b) 60%,
+    var(--gradient-c) 100%
+  );
+}
+
+/* 浮动几何装饰 */
+.hero-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.08;
+  filter: blur(40px);
+  animation: floatShape 12s var(--ease-flow) infinite alternate;
+}
+.hero-shape:nth-child(1) {
+  width: 300px; height: 300px;
+  background: var(--rose-mute);
+  top: 15%; left: 10%;
+  animation-duration: 14s;
+}
+.hero-shape:nth-child(2) {
+  width: 400px; height: 400px;
+  background: var(--blue-mute);
+  top: 50%; right: 5%;
+  animation-duration: 18s;
+  animation-delay: -3s;
+}
+.hero-shape:nth-child(3) {
+  width: 250px; height: 250px;
+  background: var(--lavender);
+  bottom: 10%; left: 40%;
+  animation-duration: 16s;
+  animation-delay: -6s;
+}
+.hero-shape:nth-child(4) {
+  width: 180px; height: 180px;
+  background: var(--green-mute);
+  top: 30%; right: 30%;
+  animation-duration: 10s;
+  animation-delay: -2s;
+}
+.hero-shape:nth-child(5) {
+  width: 220px; height: 220px;
+  background: var(--peach);
+  bottom: 30%; left: 20%;
+  animation-duration: 12s;
+  animation-delay: -4s;
+}
+
+@keyframes floatShape {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(30px, -20px) scale(1.05); }
+  66%  { transform: translate(-20px, 15px) scale(0.95); }
+  100% { transform: translate(10px, -10px) scale(1.02); }
+}
+
+/* 线条装饰 */
+.hero-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hero-line {
+  position: absolute;
+  background: var(--sand);
+  opacity: 0.06;
+}
+.hero-line:nth-child(1) {
+  width: 1px; height: 60vh;
+  top: 20%; left: 25%;
+  transform: rotate(15deg);
+}
+.hero-line:nth-child(2) {
+  width: 60vw; height: 1px;
+  top: 40%; left: 10%;
+  transform: rotate(-8deg);
+}
+.hero-line:nth-child(3) {
+  width: 1px; height: 40vh;
+  top: 30%; right: 20%;
+  transform: rotate(-20deg);
+}
+
+.hero-content {
+  text-align: center;
+  z-index: 2;
+  padding: 2rem;
+}
+.hero-name {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: var(--mist);
+  letter-spacing: 0.3em;
+  line-height: 1.2;
+  animation: heroFadeIn 2s var(--ease-flow) 0.5s both;
+}
+.hero-slogan {
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  color: var(--dust);
+  letter-spacing: 0.4em;
+  margin-top: 1.5rem;
+  animation: heroFadeIn 2s var(--ease-flow) 1.2s both;
+}
+.hero-sub {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+  color: var(--stone);
+  letter-spacing: 0.2em;
+  margin-top: 2rem;
+  animation: heroFadeIn 2s var(--ease-flow) 1.8s both;
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: heroFadeIn 2s var(--ease-flow) 2.5s both;
+}
+.hero-scroll-hint span {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.65rem;
+  color: var(--stone);
+  letter-spacing: 0.15em;
+}
+.scroll-arrow {
+  width: 20px;
+  height: 20px;
+  border-right: 1px solid var(--sand);
+  border-bottom: 1px solid var(--sand);
+  transform: rotate(45deg);
+  animation: scrollBounce 2s var(--ease-flow) infinite;
+}
+@keyframes scrollBounce {
+  0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.4; }
+  50%      { transform: rotate(45deg) translateY(6px); opacity: 1; }
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   通用板块容器
+   ═══════════════════════════════════════════ */
+.section {
+  padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 5vw, 5rem);
+  position: relative;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: clamp(3rem, 5vw, 5rem);
+}
+.section-label {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.7rem;
+  color: var(--stone);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--mist);
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+}
+.section-desc {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--stone);
+  max-width: 600px;
+  margin: 1.2rem auto 0;
+  line-height: 2;
+  letter-spacing: 0.04em;
+}
+
+/* 分隔装饰线 */
+.section-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sand), transparent);
+  margin: 1.5rem auto 0;
+}
+
+/* ═══════════════════════════════════════════
+   2. 平面设计 · 错落轻盈网格
+   ═══════════════════════════════════════════ */
+.graphic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.graphic-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--milk);
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  transition: transform var(--dur-hover) var(--ease-flow),
+              box-shadow var(--dur-hover) var(--ease-flow);
+  /* 错落排布 */
+  transform: translateY(0);
+}
+.graphic-item:nth-child(2) { margin-top: 2rem; }
+.graphic-item:nth-child(5) { margin-top: -1rem; }
+.graphic-item:nth-child(7) { margin-top: 1.5rem; }
+
+.graphic-item:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 50px var(--shadow-glow),
+              0 0 60px rgba(196,169,160,0.08);
+}
+
+.graphic-img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+  transition: filter var(--dur-hover) var(--ease-flow),
+              transform var(--dur-hover) var(--ease-flow);
+}
+/* 用CSS渐变模拟作品图 */
+.graphic-img-placeholder {
+  width: 100%;
+  aspect-ratio: 3/4;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.graphic-item:hover .graphic-img-placeholder {
+  transform: scale(1.04);
+  filter: brightness(1.05);
+}
+
+.graphic-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(77,63,47,0.6) 0%,
+    rgba(77,63,47,0) 50%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-hover) var(--ease-flow);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+}
+.graphic-item:hover .graphic-overlay { opacity: 1; }
+
+.graphic-overlay-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--milk);
+  letter-spacing: 0.06em;
+}
+.graphic-overlay-tag {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.65rem;
+  color: var(--shell);
+  letter-spacing: 0.1em;
+  margin-top: 0.4rem;
+}
+
+/* ═══════════════════════════════════════════
+   作品详情弹窗 · 磨砂唯美
+   ═══════════════════════════════════════════ */
+.detail-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(245,240,235,0.85);
+  backdrop-filter: blur(30px) saturate(1.6);
+  -webkit-backdrop-filter: blur(30px) saturate(1.6);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s var(--ease-flow), visibility 0.5s;
+  padding: 2rem;
+}
+.detail-modal.open { opacity: 1; visibility: visible; }
+
+.detail-content {
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 30px 80px var(--shadow-soft);
+  transform: translateY(20px) scale(0.96);
+  transition: transform 0.6s var(--ease-flow);
+}
+.detail-modal.open .detail-content {
+  transform: translateY(0) scale(1);
+}
+
+.detail-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: 1.4rem;
+  color: var(--dust);
+  transition: color var(--dur-hover);
+  z-index: 10;
+}
+.detail-close:hover { color: var(--rose-mute); }
+
+.detail-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: var(--mist);
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+.detail-tags {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+.detail-tag {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.65rem;
+  color: var(--dust);
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+}
+.detail-text {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--stone);
+  line-height: 2;
+  letter-spacing: 0.04em;
+}
+.detail-img-wrap {
+  width: 100%;
+  aspect-ratio: 16/10;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 2rem;
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════
+   3. 空间设计 · 宽屏沉浸
+   ═══════════════════════════════════════════ */
+.space-section {
+  background: linear-gradient(
+    180deg,
+    var(--cream) 0%,
+    #eae4dc 50%,
+    var(--cream) 100%
+  );
+}
+
+.space-projects {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.space-project {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity var(--dur-fade) var(--ease-flow),
+              transform var(--dur-fade) var(--ease-flow);
+}
+.space-project.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.space-project:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.space-img-wrap {
+  flex: 1.3;
+  min-width: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16/10;
+  border: 1px solid var(--glass-border);
+  transition: transform var(--dur-hover) var(--ease-flow),
+              box-shadow var(--dur-hover) var(--ease-flow);
+}
+.space-img-wrap:hover {
+  transform: scale(1.01);
+  box-shadow: 0 20px 50px var(--shadow-glow);
+}
+
+.space-info {
+  flex: 1;
+  min-width: 0;
+}
+.space-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: var(--mist);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.8rem;
+}
+.space-type {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.65rem;
+  color: var(--stone);
+  letter-spacing: 0.15em;
+  margin-bottom: 1.2rem;
+}
+.space-text {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.88rem;
+  color: var(--stone);
+  line-height: 2;
+  letter-spacing: 0.03em;
+}
+.space-analysis {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+}
+.analysis-item {
+  padding: 0.8rem 1.2rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+.analysis-label {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.6rem;
+  color: var(--dust);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.3rem;
+}
+.analysis-value {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--mist);
+}
+
+@media (max-width: 768px) {
+  .space-project,
+  .space-project:nth-child(even) {
+    flex-direction: column;
+  }
+  .space-img-wrap { width: 100%; }
+}
+
+/* ═══════════════════════════════════════════
+   4. 交互设计 · 轻量动态
+   ═══════════════════════════════════════════ */
+.interact-section {
+  background: linear-gradient(
+    180deg,
+    var(--cream) 0%,
+    #ece6de 40%,
+    var(--cream) 100%
+  );
+}
+
+.interact-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+.interact-tab {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: var(--dust);
+  letter-spacing: 0.08em;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--dur-hover) var(--ease-flow);
+}
+.interact-tab:hover {
+  color: var(--rose-mute);
+  border-color: var(--rose-mute);
+}
+.interact-tab.active {
+  background: rgba(196,169,160,0.12);
+  color: var(--rose-mute);
+  border-color: rgba(196,169,160,0.3);
+}
+
+.interact-showcase {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+.interact-panel {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--dur-slide) var(--ease-flow),
+              transform var(--dur-slide) var(--ease-flow);
+}
+.interact-panel.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.interact-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: transform var(--dur-hover) var(--ease-flow),
+              box-shadow var(--dur-hover) var(--ease-flow);
+}
+.interact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px var(--shadow-glow);
+}
+
+.interact-card-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: var(--mist);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+.interact-card-type {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.6rem;
+  color: var(--stone);
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+.interact-card-desc {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--stone);
+  line-height: 1.9;
+  letter-spacing: 0.03em;
+}
+
+/* 交互流程可视化 */
+.flow-visual {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.flow-step {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.6rem;
+  color: var(--dust);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.flow-arrow {
+  color: var(--sand);
+  font-size: 0.7rem;
+}
+
+@media (max-width: 768px) {
+  .interact-showcase {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   5. 个人介绍+简历 · 文艺版式
+   ═══════════════════════════════════════════ */
+.about-section {
+  background: linear-gradient(
+    180deg,
+    var(--cream) 0%,
+    #ede8e0 30%,
+    var(--cream) 100%
+  );
+}
+
+.about-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+/* 自我介绍 */
+.intro-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2.5rem;
+  backdrop-filter: blur(15px);
+}
+.intro-visual {
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.intro-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: var(--mist);
+  letter-spacing: 0.12em;
+  margin-bottom: 0.4rem;
+}
+.intro-role {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.7rem;
+  color: var(--stone);
+  letter-spacing: 0.15em;
+  margin-bottom: 1.8rem;
+}
+.intro-quote {
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: 0.95rem;
+  color: var(--dust);
+  line-height: 2;
+  letter-spacing: 0.06em;
+  margin-bottom: 1.5rem;
+  border-left: 2px solid var(--sand);
+  padding-left: 1.2rem;
+}
+.intro-text {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.88rem;
+  color: var(--stone);
+  line-height: 2;
+  letter-spacing: 0.04em;
+}
+
+/* 简历 */
+.resume-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2.5rem;
+  backdrop-filter: blur(15px);
+}
+.resume-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.resume-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+  color: var(--mist);
+  letter-spacing: 0.1em;
+}
+.resume-contact {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.65rem;
+  color: var(--dust);
+  letter-spacing: 0.06em;
+}
+
+.resume-block {
+  margin-bottom: 2rem;
+}
+.resume-block:last-child { margin-bottom: 0; }
+
+.resume-block-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: var(--mist);
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+.resume-block-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 1px;
+  background: var(--sand);
+}
+
+.resume-item {
+  margin-bottom: 0.8rem;
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+}
+.resume-year {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.65rem;
+  color: var(--stone);
+  letter-spacing: 0.05em;
+  min-width: 60px;
+  flex-shrink: 0;
+}
+.resume-item-text {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--dust);
+  line-height: 1.6;
+}
+.resume-item-sub {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.7rem;
+  color: var(--stone);
+  margin-top: 0.2rem;
+}
+
+/* 技能体系 */
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.8rem;
+}
+.skill-item {
+  padding: 0.7rem 1rem;
+  background: rgba(245,240,235,0.5);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  text-align: center;
+  transition: background var(--dur-hover) var(--ease-soft);
+}
+.skill-item:hover {
+  background: rgba(196,169,160,0.08);
+}
+.skill-name {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: var(--mist);
+  letter-spacing: 0.06em;
+}
+.skill-level {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.55rem;
+  color: var(--stone);
+  letter-spacing: 0.08em;
+  margin-top: 0.3rem;
+}
+
+/* ═══════════════════════════════════════════
+   页脚 · 诗意收尾
+   ═══════════════════════════════════════════ */
+.footer {
+  padding: 4rem 2rem;
+  text-align: center;
+  background: linear-gradient(
+    to top,
+    #e4ddd5 0%,
+    var(--cream) 100%
+  );
+}
+.footer-quote {
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: 0.9rem;
+  color: var(--dust);
+  letter-spacing: 0.2em;
+  margin-bottom: 1.5rem;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.footer-link {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.7rem;
+  color: var(--stone);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: color var(--dur-hover) var(--ease-soft);
+}
+.footer-link:hover { color: var(--rose-mute); }
+.footer-copy {
+  font-family: var(--font-body);
+  font-weight: 100;
+  font-size: 0.6rem;
+  color: var(--sand);
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════════
+   作品图占位 · 美学渐变
+   ═══════════════════════════════════════════ */
+.img-placeholder {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.img-placeholder .inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: 0.8rem;
+  color: rgba(107,93,77,0.3);
+  letter-spacing: 0.1em;
+}
+
+/* 各作品配色 */
+.ip-poster1 { background: linear-gradient(135deg, #dcc8b4 0%, #c4b0a0 40%, #b8a490 100%); }
+.ip-poster2 { background: linear-gradient(135deg, #a8c0a8 0%, #c4d4c0 50%, #d0e0d0 100%); }
+.ip-poster3 { background: linear-gradient(135deg, #b0a0b8 0%, #c4b8c8 50%, #d0c4d4 100%); }
+.ip-poster4 { background: linear-gradient(135deg, #c4a9a0 0%, #d4b8b0 50%, #e0c8c0 100%); }
+.ip-poster5 { background: linear-gradient(135deg, #a0b0c4 0%, #b8c4d4 50%, #c8d4e0 100%); }
+.ip-poster6 { background: linear-gradient(135deg, #d4b8a4 0%, #e0c8b4 50%, #e8d4c0 100%); }
+.ip-poster7 { background: linear-gradient(135deg, #c8d0c0 0%, #b8c4b0 50%, #a8b8a0 100%); }
+.ip-poster8 { background: linear-gradient(135deg, #d4c8c0 0%, #c8bcc0 50%, #b8b0c0 100%); }
+
+.ip-space1 { background: linear-gradient(135deg, #d8d0c4 0%, #c8c0b4 30%, #e0d8cc 70%, #d0c4b8 100%); }
+.ip-space2 { background: linear-gradient(135deg, #e0d4c8 0%, #d0c4b8 30%, #c8bcc0 70%, #b8b0b8 100%); }
+.ip-space3 { background: linear-gradient(135deg, #c8d4e0 0%, #d0d8d4 30%, #e0e4dc 70%, #d4d0c8 100%); }
+
+.ip-interact1 { background: linear-gradient(135deg, #e0d8d4 0%, #d4c8c0 30%, #c8bcc0 100%); }
+.ip-interact2 { background: linear-gradient(135deg, #c4d4e0 0%, #d0d8d4 40%, #d8dcd4 100%); }
+.ip-interact3 { background: linear-gradient(135deg, #d4c8b8 0%, #c8bcc0 40%, #b8b0b8 100%); }
+.ip-interact4 { background: linear-gradient(135deg, #d0dcd0 0%, #c8d4c0 40%, #b8c8b0 100%); }
+
+.ip-avatar { background: linear-gradient(135deg, #e8ddd0 0%, #d0c4b8 40%, #c4b0a0 100%); }
+
+/* 作品图上的装饰几何 */
+.img-placeholder .deco-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.15;
+}
+.img-placeholder .deco-line {
+  position: absolute;
+  background: rgba(107,93,77,0.08);
+}
+
+/* ═══════════════════════════════════════════
+   回到顶部 · 柔光按钮
+   ═══════════════════════════════════════════ */
+.back-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--dur-hover) var(--ease-flow);
+  z-index: 50;
+}
+.back-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+.back-top:hover {
+  background: rgba(196,169,160,0.15);
+  transform: translateY(-3px);
+}
+.back-top svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--dust);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+/* ═══════════════════════════════════════════
+   全局微交互增强
+   ═══════════════════════════════════════════ */
+/* 柔光鼠标跟随 */
+.cursor-glow {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,169,160,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s linear;
+}
+
+/* ═══════════════════════════════════════════
+   平滑过渡与排版微调
+   ═══════════════════════════════════════════ */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sand) var(--cream);
+}
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--sand);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--stone);
+}
+
+/* ═══════════════════════════════════════════
+   动态粒子装饰 · 浮游微粒
+   ═══════════════════════════════════════════ */
+.particles-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.3;
+}
+</style>
+</head>
+<body>
+
+<!-- 载入动效 -->
+<div class="loader-overlay" id="loader">
+  <span class="loader-text">辰 · DESIGN</span>
+</div>
+
+<!-- 鼠标柔光跟随 -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- 浮游微粒 -->
+<canvas class="particles-canvas" id="particlesCanvas"></canvas>
+
+<!-- 导航栏 -->
+<nav class="nav-bar" id="navBar">
+  <a href="#hero" class="nav-logo">蔡辰</a>
+  <ul class="nav-links">
+    <li><a href="#graphic">平面设计</a></li>
+    <li><a href="#space">空间设计</a></li>
+    <li><a href="#interact">交互设计</a></li>
+    <li><a href="#about">关于我</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="菜单">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- 移动端导航 -->
+<div class="nav-mobile" id="navMobile">
+  <a href="#hero">首页</a>
+  <a href="#graphic">平面设计</a>
+  <a href="#space">空间设计</a>
+  <a href="#interact">交互设计</a>
+  <a href="#about">关于我</a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     1. 首页首屏 · 氛围感封面
+     ═══════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-shapes">
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+  </div>
+  <div class="hero-lines">
+    <div class="hero-line"></div>
+    <div class="hero-line"></div>
+    <div class="hero-line"></div>
+  </div>
+  <div class="hero-content">
+    <h1 class="hero-name">蔡 辰</h1>
+    <p class="hero-slogan">以温柔之力，塑形间之美</p>
+    <p class="hero-sub">平面设计 · 空间设计 · 交互设计</p>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>向下探索</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     2. 平面设计板块
+     ═══════════════════════════════════════════ -->
+<section class="section" id="graphic">
+  <div class="section-header fade-in">
+    <p class="section-label">GRAPHIC DESIGN</p>
+    <h2 class="section-title">平面设计</h2>
+    <p class="section-desc">以色彩与版式为语，书写视觉的诗行。每一帧构图都是对美的静默追问，每一抹色彩都是情感的轻柔落笔。</p>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="graphic-grid">
+    <!-- 作品1 -->
+    <div class="graphic-item fade-in" data-detail="0">
+      <img class="graphic-img" src="images/poster1.png" alt="节气 · 春">
+      <div class="graphic-overlay">
+        <span class="graphic-overlay-title">节气 · 春</span>
+        <span class="graphic-overlay-tag">海报 · 色彩设计</span>
+      </div>
+    </div>
+    <!-- 作品2 -->
+    <div class="graphic-item fade-in fade-in-delay-1" data-detail="1">
+      <img class="graphic-img" src="images/poster2.png" alt="城市呼吸">
+      <div class="graphic-overlay">
+        <span class="graphic-overlay-title">城市呼吸</span>
+        <span class="graphic-overlay-tag">视觉版式 · 图形创意</span>
+      </div>
+    </div>
+    <!-- 作品3 -->
+    <div class="graphic-item fade-in fade-in-delay-2" data-detail="2">
+      <img class="graphic-img" src="images/poster3.png" alt="雾中花园">
+      <div class="graphic-overlay">
+        <span class="graphic-overlay-title">雾中花园</span>
+        <span class="graphic-overlay-tag">海报 · 色彩设计</span>
+      </div>
+    </div>
+    <!-- 作品4 -->
+    <div class="graphic-item fade-in fade-in-delay-3" data-detail="3">
+      <img class="graphic-img" src="images/poster4.png" alt="织物之歌">
+      <div class="graphic-overlay">
+        <span class="graphic-overlay-title">织物之歌</span>
+        <span class="graphic-overlay-tag">图形创意 · 版式设计</span>
+      </div>
+    </div>
+    <!-- 作品5 -->
+    <div class="graphic-item fade-in" data-detail="4">
+      <img class="graphic-img" src="images/poster5.png" alt="静水深流">
+      <div class="graphic-overlay">
+        <span class="graphic-overlay-title">静水深流</span>
+        <span class="graphic-overlay-tag">海报 · 视觉版式</span>
+      </div>
+    </div>
+    <!-- 作品6 -->
+    <div class="graphic-item fade-in fade-in-delay-1" data-detail="5">
+      <img class="graphic-img" src="images/poster6.png" alt="光阴碎片">
+      <div class="graphic-overlay">
+        <span class="graphic-overlay-title">光阴碎片</span>
+        <span class="graphic-overlay-tag">色彩设计 · 版式美学</span>
+      </div>
+    </div>
+    <!-- 作品7 -->
+    <div class="graphic-item fade-in fade-in-delay-2" data-detail="6">
+      <img class="graphic-img" src="images/poster7.png" alt="山间回响">
+      <div class="graphic-overlay">
+        <span class="graphic-overlay-title">山间回响</span>
+        <span class="graphic-overlay-tag">图形创意 · 海报</span>
+      </div>
+    </div>
+    <!-- 作品8 -->
+    <div class="graphic-item fade-in fade-in-delay-3" data-detail="7">
+      <img class="graphic-img" src="images/poster8.png" alt="镜中花">
+      <div class="graphic-overlay">
+        <span class="graphic-overlay-title">镜中花</span>
+        <span class="graphic-overlay-tag">版式设计 · 色彩美学</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     3. 空间设计板块
+     ═══════════════════════════════════════════ -->
+<section class="section space-section" id="space">
+  <div class="section-header fade-in">
+    <p class="section-label">SPACE DESIGN</p>
+    <h2 class="section-title">空间设计</h2>
+    <p class="section-desc">在光影的边界处，让空间成为一首可以行走的诗。静谧不是空无，而是所有声音抵达和谐后的安宁。</p>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="space-projects">
+    <!-- 项目1 -->
+    <div class="space-project fade-in">
+      <div class="space-img-wrap">
+        <img src="images/space1.png" alt="留白 · 居" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:16px;">
+      </div>
+      <div class="space-info">
+        <h3 class="space-title">留白 · 居</h3>
+        <p class="space-type">住宅空间 · 氛围设计</p>
+        <p class="space-text">以"留白"为空间语法的住宅方案，将东方意境中的"空"转化为西方功能主义的"简"。大面积奶白与浅灰的交替，搭配低色温光源，创造一种可以呼吸的居住容器。空间不是被填满，而是被感受。</p>
+        <div class="space-analysis">
+          <div class="analysis-item">
+            <p class="analysis-label">光影策略</p>
+            <p class="analysis-value">间接漫射 · 色温2700K</p>
+          </div>
+          <div class="analysis-item">
+            <p class="analysis-label">色彩逻辑</p>
+            <p class="analysis-value">莫兰迪系 · 低饱和</p>
+          </div>
+          <div class="analysis-item">
+            <p class="analysis-label">构图思路</p>
+            <p class="analysis-value">对称留白 · 层次递进</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 项目2 -->
+    <div class="space-project fade-in">
+      <div class="space-img-wrap">
+        <img src="images/space2.png" alt="光之庭院" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:16px;">
+      </div>
+      <div class="space-info">
+        <h3 class="space-title">光之庭院</h3>
+        <p class="space-type">公共空间 · 场景渲染</p>
+        <p class="space-text">一座为沉默而设计的庭院。以水为镜、以光为笔，构筑人与自然对话的过渡空间。混凝土与白墙的克制碰撞，在日光的游移中完成一次又一次自我更新，空间始终处于"未完成"的状态。</p>
+        <div class="space-analysis">
+          <div class="analysis-item">
+            <p class="analysis-label">光影策略</p>
+            <p class="analysis-value">自然渗透 · 时序变幻</p>
+          </div>
+          <div class="analysis-item">
+            <p class="analysis-label">色彩逻辑</p>
+            <p class="analysis-value">灰白系 · 材质本色</p>
+          </div>
+          <div class="analysis-item">
+            <p class="analysis-label">构图思路</p>
+            <p class="analysis-value">中轴渗透 · 视线延伸</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 项目3 -->
+    <div class="space-project fade-in">
+      <div class="space-img-wrap">
+        <img src="images/space3.png" alt="云上茶室" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:16px;">
+      </div>
+      <div class="space-info">
+        <h3 class="space-title">云上茶室</h3>
+        <p class="space-type">商业空间 · 空间构图</p>
+        <p class="space-text">将茶道中的"和敬清寂"转化为可感知的空间节奏。低矮的桌案、悬浮的隔断、缓慢移动的光影——所有元素在静谧中自行完成编排，人只是恰好走进了这个已经存在的秩序里。</p>
+        <div class="space-analysis">
+          <div class="analysis-item">
+            <p class="analysis-label">光影策略</p>
+            <p class="analysis-value">局部聚焦 · 暗区退让</p>
+          </div>
+          <div class="analysis-item">
+            <p class="analysis-label">色彩逻辑</p>
+            <p class="analysis-value">茶褐 · 米白 · 炭灰</p>
+          </div>
+          <div class="analysis-item">
+            <p class="analysis-label">构图思路</p>
+            <p class="analysis-value">围合感 · 低重心 · 纵向通透</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     4. 交互设计板块
+     ═══════════════════════════════════════════ -->
+<section class="section interact-section" id="interact">
+  <div class="section-header fade-in">
+    <p class="section-label">INTERACTION DESIGN</p>
+    <h2 class="section-title">交互设计</h2>
+    <p class="section-desc">科技的温度，不在冰冷的数据里，而在每一次指尖触碰时界面给予的温柔回应。让交互成为一场无声的对话。</p>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="interact-tabs fade-in">
+    <button class="interact-tab active" data-tab="all">全部作品</button>
+    <button class="interact-tab" data-tab="ui">界面设计</button>
+    <button class="interact-tab" data-tab="ux">用户体验</button>
+    <button class="interact-tab" data-tab="motion">动效设计</button>
+  </div>
+
+  <div class="interact-showcase">
+    <!-- 作品1 -->
+    <div class="interact-panel fade-in" data-category="ui">
+      <div class="interact-card">
+        <img src="images/interact1.png" alt="晨间日记" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;margin-bottom:1.2rem;">
+        <h3 class="interact-card-title">晨间日记 · App</h3>
+        <p class="interact-card-type">界面设计 · iOS</p>
+        <p class="interact-card-desc">一款以"晨间仪式感"为核心概念的情绪记录应用。以渐变日出色调贯穿界面，每个清晨的记录都像一次温柔的自我问候。交互逻辑遵循"最少步骤、最深情感"的设计原则。</p>
+        <div class="flow-visual">
+          <span class="flow-step">晨起提醒</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">情绪选择</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">文字记录</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">温柔反馈</span>
+        </div>
+      </div>
+    </div>
+    <!-- 作品2 -->
+    <div class="interact-panel fade-in fade-in-delay-1" data-category="ux">
+      <div class="interact-card">
+        <img src="images/interact2.png" alt="慢行 · 旅行平台" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;margin-bottom:1.2rem;">
+        <h3 class="interact-card-title">慢行 · 旅行平台</h3>
+        <p class="interact-card-type">用户体验 · Web</p>
+        <p class="interact-card-desc">反"快消费"的旅行体验平台，倡导"慢行即深度"。从行程规划到旅途记录，整个流程被拆解为一个个可以停顿的节点，让用户在每一步都能感受到"选择"的重量与"停留"的价值。</p>
+        <div class="flow-visual">
+          <span class="flow-step">灵感发现</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">慢行规划</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">旅途沉浸</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">记忆收藏</span>
+        </div>
+      </div>
+    </div>
+    <!-- 作品3 -->
+    <div class="interact-panel fade-in fade-in-delay-2" data-category="motion">
+      <div class="interact-card">
+        <img src="images/interact3.png" alt="呼吸 · 冥想引导" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;margin-bottom:1.2rem;">
+        <h3 class="interact-card-title">呼吸 · 冥想引导</h3>
+        <p class="interact-card-type">动效设计 · 可穿戴</p>
+        <p class="interact-card-desc">将冥想中的呼吸节奏可视化。界面随呼吸膨胀与收缩，光圈在吸气时扩展、呼气时收拢，所有动效曲线严格匹配人体呼吸频率（4-7-8呼吸法），让界面本身就是冥想的一部分。</p>
+        <div class="flow-visual">
+          <span class="flow-step">吸气 · 扩展</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">屏息 · 停留</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">呼气 · 收拢</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">安宁 · 状态</span>
+        </div>
+      </div>
+    </div>
+    <!-- 作品4 -->
+    <div class="interact-panel fade-in fade-in-delay-3" data-category="ui ux">
+      <div class="interact-card">
+        <img src="images/interact4.png" alt="墨迹 · 数字书法" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;margin-bottom:1.2rem;">
+        <h3 class="interact-card-title">墨迹 · 数字书法</h3>
+        <p class="interact-card-type">界面设计 · 交互逻辑</p>
+        <p class="interact-card-desc">将传统书法体验移植至数字界面，笔触的粗细、墨迹的浓淡、运笔的节奏——所有物理世界的手感都被转译为细腻的触觉反馈与视觉动效。界面以宣纸肌理为底，让每一次书写都有"落笔成迹"的仪式感。</p>
+        <div class="flow-visual">
+          <span class="flow-step">选择字体</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">触屏书写</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">墨迹生成</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">作品收藏</span>
+        </div>
+      </div>
+    </div>
+    <!-- 作品5：云南白药光钻Pro交互网页设计 -->
+    <div class="interact-panel fade-in" data-category="ui ux motion">
+      <div class="interact-card">
+        <img src="images/interact5-yunnanbaiyao.png" alt="云南白药光钻Pro" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;margin-bottom:1.2rem;">
+        <h3 class="interact-card-title">云南白药光钻Pro · 交互网页设计</h3>
+        <p class="interact-card-type">交互设计 · 全案 · Web</p>
+        <p class="interact-card-desc">为云南白药光钻Pro牙膏打造的沉浸式品牌交互网页，以「3+1钻白功效」为核心叙事线。从萌牙IP角色到剧情式分镜引导，从滚动触发动画到点击微交互反馈，将产品功效转化为可感知的数字体验。涵盖平面视觉、交互流程、UI界面、用户动线与空间版式的完整设计体系。</p>
+        <div class="flow-visual">
+          <span class="flow-step">剧情引入</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">功效展示</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">互动体验</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">科普对比</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     5. 个人介绍 + 简历
+     ═══════════════════════════════════════════ -->
+<section class="section about-section" id="about">
+  <div class="section-header fade-in">
+    <p class="section-label">ABOUT & RESUME</p>
+    <h2 class="section-title">关于我</h2>
+    <p class="section-desc">设计是温柔的抵抗——抵抗平庸、抵抗遗忘、抵抗那些让世界变得粗糙的力量。</p>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="about-container">
+    <!-- 自我介绍 -->
+    <div class="intro-card fade-in">
+      <div class="intro-visual">
+        <img src="images/avatar.png" alt="蔡辰" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:14px;">
+      </div>
+      <h3 class="intro-name">蔡辰</h3>
+      <p class="intro-role">跨领域设计师 · 平面 / 空间 / 交互</p>
+      <p class="intro-quote">我相信好的设计不是被看见的，而是被感受到的。它不需要喧哗，只需要安静地存在，然后改变你看待世界的方式。</p>
+      <p class="intro-text">我的创作始终围绕一个核心追问：如何在理性与感性之间找到那个恰到好处的平衡点？平面设计让我理解秩序与美感的关系，空间设计教会我感知光影与尺度的语言，交互设计则让我相信——科技最动人的瞬间，是它变得像一首诗那样安静的时候。</p>
+      <p class="intro-text" style="margin-top:1rem;">我追求的不是风格的统一，而是气质的连贯——温柔、克制、有呼吸感，像晨雾中的远山，而非烈日下的棱角。</p>
+    </div>
+
+    <!-- 电子简历 -->
+    <div class="resume-card fade-in fade-in-delay-2">
+      <div class="resume-header">
+        <h3 class="resume-name">蔡辰</h3>
+        <span class="resume-contact">caichen.design@email.com · 上海</span>
+      </div>
+
+      <!-- 教育经历 -->
+      <div class="resume-block">
+        <h4 class="resume-block-title">教育经历</h4>
+        <div class="resume-item">
+          <span class="resume-year">2022–2026</span>
+          <div>
+            <p class="resume-item-text">某某大学 · 设计学院</p>
+            <p class="resume-item-sub">视觉传达设计 · 本科 · GPA 3.8/4.0</p>
+          </div>
+        </div>
+        <div class="resume-item">
+          <span class="resume-year">2024</span>
+          <div>
+            <p class="resume-item-text">某某美术学院 · 交换项目</p>
+            <p class="resume-item-sub">空间设计与环境艺术 · 学期交换</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 设计经历 -->
+      <div class="resume-block">
+        <h4 class="resume-block-title">设计经历</h4>
+        <div class="resume-item">
+          <span class="resume-year">2025</span>
+          <div>
+            <p class="resume-item-text">某某设计工作室 · 空间设计师</p>
+            <p class="resume-item-sub">参与3个商业空间方案，主导光影与氛围设计</p>
+          </div>
+        </div>
+        <div class="resume-item">
+          <span class="resume-year">2024</span>
+          <div>
+            <p class="resume-item-text">某某科技 · 交互设计实习生</p>
+            <p class="resume-item-sub">负责App界面设计与动效方案，完成2个完整项目</p>
+          </div>
+        </div>
+        <div class="resume-item">
+          <span class="resume-year">2023</span>
+          <div>
+            <p class="resume-item-text">某某出版社 · 平面设计助理</p>
+            <p class="resume-item-sub">书籍封面与版式设计，完成8本出版物视觉方案</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 技能体系 -->
+      <div class="resume-block">
+        <h4 class="resume-block-title">技能体系</h4>
+        <div class="skill-grid">
+          <div class="skill-item">
+            <p class="skill-name">Adobe PS / AI</p>
+            <p class="skill-level">精通</p>
+          </div>
+          <div class="skill-item">
+            <p class="skill-name">Figma</p>
+            <p class="skill-level">精通</p>
+          </div>
+          <div class="skill-item">
+            <p class="skill-name">SketchUp</p>
+            <p class="skill-level">熟练</p>
+          </div>
+          <div class="skill-item">
+            <p class="skill-name">AutoCAD</p>
+            <p class="skill-level">熟练</p>
+          </div>
+          <div class="skill-item">
+            <p class="skill-name">After Effects</p>
+            <p class="skill-level">熟练</p>
+          </div>
+          <div class="skill-item">
+            <p class="skill-name">InDesign</p>
+            <p class="skill-level">熟练</p>
+          </div>
+          <div class="skill-item">
+            <p class="skill-name">Blender</p>
+            <p class="skill-level">进阶</p>
+          </div>
+          <div class="skill-item">
+            <p class="skill-name">Principle</p>
+            <p class="skill-level">进阶</p>
+          </div>
+          <div class="skill-item">
+            <p class="skill-name">用户研究</p>
+            <p class="skill-level">熟练</p>
+          </div>
+          <div class="skill-item">
+            <p class="skill-name">设计思维</p>
+            <p class="skill-level">精通</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 荣誉成果 -->
+      <div class="resume-block">
+        <h4 class="resume-block-title">获奖成果</h4>
+        <div class="resume-item">
+          <span class="resume-year">2025</span>
+          <div>
+            <p class="resume-item-text">某某设计大赛 · 金奖</p>
+            <p class="resume-item-sub">平面设计赛道 · 作品《节气·春》</p>
+          </div>
+        </div>
+        <div class="resume-item">
+          <span class="resume-year">2024</span>
+          <div>
+            <p class="resume-item-text">某某国际设计节 · 入展</p>
+            <p class="resume-item-sub">空间设计赛道 · 作品《光之庭院》</p>
+          </div>
+        </div>
+        <div class="resume-item">
+          <span class="resume-year">2023</span>
+          <div>
+            <p class="resume-item-text">某某交互设计奖 · 优秀作品</p>
+            <p class="resume-item-sub">交互设计赛道 · 作品《晨间日记》</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     作品详情弹窗
+     ═══════════════════════════════════════════ -->
+<div class="detail-modal" id="detailModal">
+  <button class="detail-close" id="detailClose">×</button>
+  <div class="detail-content" id="detailContent">
+    <!-- 动态填充 -->
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     页脚
+     ═══════════════════════════════════════════ -->
+<footer class="footer">
+  <p class="footer-quote">"设计的终点不是完美，而是呼吸。"</p>
+  <div class="footer-links">
+    <a href="#hero" class="footer-link">首页</a>
+    <a href="#graphic" class="footer-link">平面设计</a>
+    <a href="#space" class="footer-link">空间设计</a>
+    <a href="#interact" class="footer-link">交互设计</a>
+    <a href="#about" class="footer-link">关于我</a>
+  </div>
+  <p class="footer-copy">© 2026 蔡辰 · 设计作品集 · 以温柔之力塑形间之美</p>
+</footer>
+
+<!-- 回到顶部 -->
+<button class="back-top" id="backTop">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+/* ═══════════════════════════════════════════
+   全局交互逻辑 · 治愈轻柔动效
+   ═══════════════════════════════════════════ */
+
+// ── 载入动效 ──
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+  }, 800);
+});
+
+// ── 鼠标柔光跟随 ──
+const glow = document.getElementById('cursorGlow');
+let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+function updateGlow() {
+  glowX += (mouseX - glowX) * 0.08;
+  glowY += (mouseY - glowY) * 0.08;
+  glow.style.left = glowX + 'px';
+  glow.style.top = glowY + 'px';
+  requestAnimationFrame(updateGlow);
+}
+updateGlow();
+
+// ── 浮游微粒 ──
+const canvas = document.getElementById('particlesCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.15 + 0.05;
+    this.life = Math.random() * 300 + 200;
+    this.age = 0;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.age++;
+    if (this.age > this.life || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+      this.reset();
+    }
+  }
+  draw() {
+    const progress = this.age / this.life;
+    const alpha = this.opacity * (1 - progress * 0.5);
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(180,170,155,${alpha})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 50; i++) {
+  particles.push(new Particle());
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ── 导航栏滚动效果 ──
+const navBar = document.getElementById('navBar');
+const backTop = document.getElementById('backTop');
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  navBar.classList.toggle('scrolled', scrollY > 50);
+  backTop.classList.toggle('visible', scrollY > 600);
+});
+
+backTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ── 移动端导航 ──
+const navToggle = document.getElementById('navToggle');
+const navMobile = document.getElementById('navMobile');
+
+navToggle.addEventListener('click', () => {
+  navMobile.classList.toggle('open');
+  const spans = navToggle.querySelectorAll('span');
+  if (navMobile.classList.contains('open')) {
+    spans[0].style.transform = 'rotate(45deg) translateY(8px)';
+    spans[1].style.opacity = '0';
+    spans[2].style.transform = 'rotate(-45deg) translateY(-8px)';
+  } else {
+    spans[0].style.transform = '';
+    spans[1].style.opacity = '';
+    spans[2].style.transform = '';
+  }
+});
+
+navMobile.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    navMobile.classList.remove('open');
+    const spans = navToggle.querySelectorAll('span');
+    spans[0].style.transform = '';
+    spans[1].style.opacity = '';
+    spans[2].style.transform = '';
+  });
+});
+
+// ── 滚动淡入 (Intersection Observer) ──
+const fadeElements = document.querySelectorAll('.fade-in, .space-project');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, {
+  threshold: 0.15,
+  rootMargin: '0px 0px -50px 0px'
+});
+fadeElements.forEach(el => observer.observe(el));
+
+// ── 交互设计Tab切换 ──
+const tabs = document.querySelectorAll('.interact-tab');
+const panels = document.querySelectorAll('.interact-panel');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    const category = tab.dataset.tab;
+
+    panels.forEach(panel => {
+      const cats = panel.dataset.category.split(' ');
+      if (category === 'all' || cats.includes(category)) {
+        panel.style.display = '';
+        panel.style.opacity = '0';
+        panel.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          panel.style.opacity = '1';
+          panel.style.transform = 'translateY(0)';
+        }, 50);
+      } else {
+        panel.style.opacity = '0';
+        panel.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          panel.style.display = 'none';
+        }, 400);
+      }
+    });
+  });
+});
+
+// ── 平面设计作品详情 ──
+const graphicData = [
+  {
+    title: '节气 · 春',
+    tags: ['海报设计', '色彩设计', '文化视觉'],
+    text: '以二十四节气中的"春"为灵感，将万物萌发的生命力转化为低饱和暖色渐变。构图采用不对称留白，中心图形取植物初芽的几何抽象，配色从嫩绿过渡到暖杏，整体传达"温柔而坚定地生长"的意象。色彩解析：主色取自初春薄雾中的柳色，辅色源自迎光花瓣的透明质感。',
+    imgSrc: 'images/poster1.png'
+  },
+  {
+    title: '城市呼吸',
+    tags: ['视觉版式', '图形创意', '城市叙事'],
+    text: '将城市的呼吸节奏——建筑的升降、人群的聚散、光线的流转——可视化为一组有序的几何构成。版式以网格为骨架，但在规则中嵌入"呼吸缝"：微小的间距变化让画面如同正在呼吸的生命体。色彩取城市清晨的灰蓝与黄昏的暖橘，在理性秩序中保留感性余韵。',
+    imgSrc: 'images/poster2.png'
+  },
+  {
+    title: '雾中花园',
+    tags: ['海报设计', '色彩美学', '意境表达'],
+    text: '受印象派花园画作启发，将花园的朦胧美感转化为平面视觉语言。画面以大面积雾灰为底，花朵以极低饱和度呈现，仿佛在晨雾中若隐若现。构图逻辑：从近景的细腻到远景的消融，模拟人在雾中行走时的视觉递减体验，让观者在"看不清"中感受到"更多"。',
+    imgSrc: 'images/poster3.png'
+  },
+  {
+    title: '织物之歌',
+    tags: ['图形创意', '版式设计', '纹理探索'],
+    text: '以织物的纹理与编织逻辑为设计语法。线条的交叉、重叠、留空，构成版式的节奏；色彩从麻褐到纱白，模拟织物从粗到细的质感过渡。每一个图形单元都是一根"线"，版式就是这些线编织而成的歌。',
+    imgSrc: 'images/poster4.png'
+  },
+  {
+    title: '静水深流',
+    tags: ['海报设计', '视觉版式', '东方美学'],
+    text: '以"静水深流"的东方哲理为设计内核。表面是极简的构图与克制的色彩——浅灰、蓝灰、墨白——深层是对时间流逝的视觉隐喻。版式如水面：平静无波，但细节处暗含水纹的微妙变化，暗示水面之下更深的力量。',
+    imgSrc: 'images/poster5.png'
+  },
+  {
+    title: '光阴碎片',
+    tags: ['色彩设计', '版式美学', '时间叙事'],
+    text: '将时间感知碎片化——不是连续的叙事，而是散落的瞬间。版式以不规则几何块承载不同色温的碎片，从晨光的暖金到暮色的冷蓝，每一块都是时间的一个呼吸点。色彩逻辑：碎片间的过渡不是渐变，而是如记忆般的跳跃——温暖与冷静交替出现。',
+    imgSrc: 'images/poster6.png'
+  },
+  {
+    title: '山间回响',
+    tags: ['图形创意', '海报设计', '自然意象'],
+    text: '将山中回声的物理现象转化为视觉回响——图形在版式中重复出现，每一次都比前一次更淡、更远、更轻，如同声音在山谷中的层层递减。色彩从浓重的岩褐逐层褪至雾白，模拟声音衰减的同时，也模拟视觉在远距离中的自然模糊。',
+    imgSrc: 'images/poster7.png'
+  },
+  {
+    title: '镜中花',
+    tags: ['版式设计', '色彩美学', '镜像构图'],
+    text: '以"镜"为版式逻辑——左右对称却又不完全对称，如同镜中映像与现实之间的微妙偏差。色彩在镜像两侧呈冷暖对照：一侧是花的本色，一侧是镜的偏色。版式的中轴线即镜面，观者的视线在两侧来回游移，体验"似真似幻"的视觉张力。',
+    imgSrc: 'images/poster8.png'
+  }
+];
+
+const modal = document.getElementById('detailModal');
+const detailContent = document.getElementById('detailContent');
+const detailClose = document.getElementById('detailClose');
+
+document.querySelectorAll('.graphic-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const idx = parseInt(item.dataset.detail);
+    const data = graphicData[idx];
+    detailContent.innerHTML = `
+      <h2 class="detail-title">${data.title}</h2>
+      <div class="detail-tags">
+        ${data.tags.map(t => `<span class="detail-tag">${t}</span>`).join('')}
+      </div>
+      <p class="detail-text">${data.text}</p>
+      <div class="detail-img-wrap">
+        <img src="${data.imgSrc}" alt="${data.title}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
+      </div>
+    `;
+    modal.classList.add('open');
+  });
+});
+
+detailClose.addEventListener('click', () => {
+  modal.classList.remove('open');
+});
+
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.classList.remove('open');
+  }
+});
+
+// ── 键盘关闭弹窗 ──
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    modal.classList.remove('open');
+    navMobile.classList.remove('open');
+  }
+});
+
+// ── 平滑锚点滚动 ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
